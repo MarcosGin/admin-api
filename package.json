@@ -1,0 +1,48 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run build && npm run serve",
+    "serve": "tsc-watch --outDir ./dist --onSuccess \"node ./dist/index.js\"",
+    "build": "tsc",
+    "tslint": "tslint -c tslint.json -p tsconfig.json",
+    "debug": "npm run build && npm run serve-debug",
+    "serve-debug": "tsc-watch --outDir ./dist --onSuccess \"node --inspect=9222 --trace-warnings ./dist/index.js\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/bcrypt": "^3.0.0",
+    "@types/bluebird": "^3.5.26",
+    "@types/body-parser": "^1.17.0",
+    "@types/express": "^4.16.1",
+    "@types/jsonwebtoken": "^8.3.2",
+    "@types/morgan": "^1.7.35",
+    "@types/node": "^12.0.0",
+    "@types/passport": "^1.0.0",
+    "@types/sequelize": "^4.27.49",
+    "@types/validator": "^10.11.0",
+    "nodemon": "^1.19.0",
+    "ts-node": "^8.1.0",
+    "tsc-watch": "^2.1.2",
+    "typescript": "^3.4.5"
+  },
+  "dependencies": {
+    "bcrypt": "^3.0.6",
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.0.0",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.9.1",
+    "mysql2": "^1.6.5",
+    "oauth2orize": "^1.11.0",
+    "passport": "^0.4.0",
+    "reflect-metadata": "^0.1.13",
+    "sequelize": "^5.8.5",
+    "sequelize-cli": "^5.4.0",
+    "sequelize-typescript": "^1.0.0-alpha.9"
+  }
+}

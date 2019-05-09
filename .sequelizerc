@@ -1,0 +1,5 @@
+const path = require('path');
+
+moduel.exports = {
+  'config': path.resolve('dist/config','config.js')
+}
