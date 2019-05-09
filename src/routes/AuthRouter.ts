@@ -1,8 +1,7 @@
 import * as express from "express";
-import {BaseRouter } from "./BaseRouter";
+import { BaseRouter } from "./BaseRouter";
 
 export class AuthRouter extends BaseRouter {
-
   private authManager: any;
 
   constructor() {
@@ -11,9 +10,9 @@ export class AuthRouter extends BaseRouter {
     this.buildRoutes();
   }
 
-  private buildRoutes(){
+  private buildRoutes() {
     this.router.post("/token", (req: express.Request, res: express.Response, next: express.NextFunction) => {
       res.json({ status: true });
-    })
+    });
   }
 }

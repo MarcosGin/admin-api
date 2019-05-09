@@ -6,7 +6,6 @@ import { Client } from "./entities/Client";
 import { User } from "./entities/User";
 
 export class Models {
-
   public sequelize: Sequelize;
 
   constructor(config: any) {
@@ -20,8 +19,6 @@ export class Models {
 
   //Todo: get by directory path
   private getModels() {
-    return [ 
-      AccessToken, AuthorizationCode, Client, User
-    ]
+    return [AccessToken, AuthorizationCode, Client, User];
   }
 }

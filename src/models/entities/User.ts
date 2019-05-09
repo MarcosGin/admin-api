@@ -1,4 +1,4 @@
-import { AllowNull, BeforeSave, Column, DataType, HasOne, IsEmail, Table, Unique} from "sequelize-typescript";
+import { AllowNull, BeforeSave, Column, DataType, HasOne, IsEmail, Table, Unique } from "sequelize-typescript";
 import { AccessToken } from "./AccessToken";
 import { BaseModel } from "./BaseModel";
 import { RoleEnum } from "../enums/RoleEnum";
@@ -6,7 +6,6 @@ import { Utils } from "../../utils";
 
 @Table
 export class User extends BaseModel<User> {
-
   @AllowNull(false)
   @Column
   firstName: string;
@@ -35,9 +34,7 @@ export class User extends BaseModel<User> {
   pictureUrl: string;
 
   @BeforeSave
-
   static encryptPassword(instance: User) {
     instance.password = Utils.encryptPassword(instance.password);
   }
-
 }

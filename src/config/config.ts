@@ -1,4 +1,4 @@
-const dotenv = require('dotenv').config();
+const dotenv = require("dotenv").config();
 
 export const development = {
   database: process.env.DB_NAME,
@@ -7,4 +7,4 @@ export const development = {
   host: "localhost",
   port: 3306,
   dialect: "mysql"
-}
+};

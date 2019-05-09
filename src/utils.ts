@@ -8,7 +8,7 @@ export class Utils {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-  public static encryptPassword(password: string ): string {
+  public static encryptPassword(password: string): string {
     const salt = bcrypt.genSaltSync(10);
     return bcrypt.hashSync(password, salt);
   }

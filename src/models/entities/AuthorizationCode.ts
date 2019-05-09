@@ -3,7 +3,6 @@ import { BaseModel } from "./BaseModel";
 
 @Table
 export class AuthorizationCode extends BaseModel<AuthorizationCode> {
-
   @Column
   code: string;
 
@@ -15,5 +14,4 @@ export class AuthorizationCode extends BaseModel<AuthorizationCode> {
 
   @Column
   userId: string;
-
 }

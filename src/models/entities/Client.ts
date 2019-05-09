@@ -4,7 +4,6 @@ import { BaseModel } from "./BaseModel";
 
 @Table
 export class Client extends BaseModel<Client> {
-
   @AllowNull(false)
   @Unique
   @Column

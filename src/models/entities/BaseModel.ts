@@ -1,9 +1,18 @@
-import { Column, CreatedAt, UpdatedAt, DeletedAt, IsUUID, 
-  Model, PrimaryKey, DataType, Table, Default} from "sequelize-typescript";
+import {
+  Column,
+  CreatedAt,
+  UpdatedAt,
+  DeletedAt,
+  IsUUID,
+  Model,
+  PrimaryKey,
+  DataType,
+  Table,
+  Default
+} from "sequelize-typescript";
 
 @Table
 export class BaseModel<T> extends Model<T> {
-  
   @IsUUID(4)
   @PrimaryKey
   @Default(DataType.UUIDV4)
@@ -18,5 +27,4 @@ export class BaseModel<T> extends Model<T> {
 
   @DeletedAt
   deletedAt: Date;
-
 }
