@@ -2,32 +2,40 @@ import * as express from "express";
 import * as morgan from "morgan";
 import * as config from "./config/config";
 import * as bodyParser from "body-parser";
+import * as passport from "passport";
+import * as http from "http";
+
+import { Auth } from "./auth/auth";
 import { Models } from "./models";
 import { Router } from "./routes";
+import { errorHandler } from "./errors/ErrorHandler";
 
 export class App {
-  private app: express.Express;
+  public app: express.Express;
 
-  constructor(private port?: number | string) {
+  constructor() {}
+
+  public async initializeApp(): Promise<http.Server> {
     this.app = express();
     this.configureApp();
 
-    /*
-    TODO: Initialize auth0
     this.initializeAuth();
-    */
 
     Router.initializeRoutes(this.app);
 
+    this.errorHandler();
+
     try {
-      this.initializeDatabase();
+      await this.initializeDatabase();
     } catch (error) {
       console.log("Could not initialize Database", error);
     }
+
+    return this.app.listen(this.app.get("port"));
   }
 
   private configureApp() {
-    this.app.set("port", this.port || process.env.PORT || 3000);
+    this.app.set("port", process.env.PORT || 3000);
     this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(bodyParser.json());
     this.app.use(
@@ -59,8 +67,29 @@ export class App {
     }
   }
 
+  private initializeAuth() {
+    this.app.use(passport.initialize());
+    Auth.serializeUser();
+    Auth.useBasicStrategy();
+    Auth.useBearerStrategy();
+    Auth.useLocalStrategy();
+    // Auth.useFacebookTokenStrategy();
+  }
+
+  private errorHandler() {
+    this.app.use(errorHandler);
+  }
+
   async listen() {
     await this.app.listen(this.app.get("port"));
     console.log("Server running in port", this.app.get("port"));
+  }
+
+  public getPort() {
+    return this.app.get("port");
+  }
+
+  public getEnv() {
+    return this.app.get("env");
   }
 }
