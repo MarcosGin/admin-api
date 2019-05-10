@@ -2,19 +2,23 @@
   "name": "api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "start": "npm run build && npm run serve",
-    "serve": "tsc-watch --outDir ./dist --onSuccess \"node ./dist/index.js\"",
-    "build": "tsc",
+    "start": "npm run serve",
+    "build": "npm run build-ts && npm run tslint",
+    "serve": "node dist/index.js",
+    "build-ts": "tsc",
+    "watch-ts": "tsc -w",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
-    "debug": "npm run build && npm run serve-debug",
-    "serve-debug": "tsc-watch --outDir ./dist --onSuccess \"node --inspect=9222 --trace-warnings ./dist/index.js\""
+    "debug": "npm run build && npm run watch-debug",
+    "serve-debug": "nodemon --inspect dist/index.js",
+    "watch-debug": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\"  \"npm run watch-ts\" \"npm run serve-debug\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/async": "^2.4.2",
     "@types/bcrypt": "^3.0.0",
     "@types/bluebird": "^3.5.26",
     "@types/body-parser": "^1.17.0",
@@ -25,9 +29,11 @@
     "@types/passport": "^1.0.0",
     "@types/sequelize": "^4.27.49",
     "@types/validator": "^10.11.0",
+    "concurrently": "^4.1.0",
     "nodemon": "^1.19.0",
     "ts-node": "^8.1.0",
     "tsc-watch": "^2.1.2",
+    "tslint": "^5.16.0",
     "typescript": "^3.4.5"
   },
   "dependencies": {
