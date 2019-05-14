@@ -10,6 +10,8 @@ export { AuthorizationCode } from "./entities/AuthorizationCode";
 export { Client } from "./entities/Client";
 export { User } from "./entities/User";
 
+export { UserDTO } from "./dtos/UserDTO";
+
 export class Models {
   public sequelize: Sequelize;
 
