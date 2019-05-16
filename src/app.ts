@@ -70,10 +70,8 @@ export class App {
   private initializeAuth() {
     this.app.use(passport.initialize());
     Auth.serializeUser();
-    Auth.useBasicStrategy();
     Auth.useBearerStrategy();
     Auth.useLocalStrategy();
-    // Auth.useFacebookTokenStrategy();
   }
 
   private errorHandler() {

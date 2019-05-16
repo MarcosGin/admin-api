@@ -1,17 +1,14 @@
 import * as passport from "passport";
 import * as passportLocal from "passport-local";
 import * as passportBearer from "passport-http-bearer";
-import * as passportClient from "passport-oauth2-client-password";
-import { BasicStrategy } from "passport-http";
-import * as bcrypt from "bcrypt";
 import { sign, verify } from "jsonwebtoken";
 
-import { User, AccessToken, Client } from "../models";
+import { User, AccessToken, UserDTO } from "../models";
 import { AuthError } from "../errors/AuthError";
+import { Utils } from "../utils";
 
 const LocalStrategy = passportLocal.Strategy;
 const BearerStrategy = passportBearer.Strategy;
-const ClientPasswordStrategy = passportClient.Strategy;
 
 export class Auth {
   static serializeUser() {
@@ -21,7 +18,7 @@ export class Auth {
 
     passport.deserializeUser((id: number, done) => {
       User.findOne<User>({ where: { id } }).then((user: User) => {
-        done(null, user);
+        done(null, new UserDTO(user));
       });
     });
   }
@@ -35,24 +32,21 @@ export class Auth {
    */
   static useLocalStrategy() {
     passport.use(
-      new LocalStrategy(async (userName, password, done) => {
-        const user = await User.findOne<User>({ where: { email: userName } });
+      new LocalStrategy({ usernameField: "email" }, async (email, password, done) => {
+        const user = await User.findOne<User>({ where: { email } });
         if (user) {
-          //const authorized = await this.comparePasswords(password, user.password);
-          return done(null, user);
+          const authorized = await Utils.comparePassword(password, user.password);
+
+          if (authorized) {
+            return done(null, new UserDTO(user));
+          } else {
+            return done(null, false, { message: "The password is incorrect" });
+          }
         } else {
-          return done("No user found", false);
+          return done(new AuthError("The e-mail not exist."));
         }
       })
     );
-  }
-
-  static async comparePasswords(pass1: string | undefined, pass2: string | undefined): Promise<boolean> {
-    if (pass1 && pass2) {
-      return bcrypt.compare(pass1, pass2);
-    } else {
-      return false;
-    }
   }
 
   /**
@@ -73,7 +67,9 @@ export class Auth {
             const decodedToken = await verify(accessToken.token, process.env.JWT_SECRET || "");
             const user = await User.findOne({ where: { id: decodedToken["id"] } });
 
-            return done(null, user);
+            if (user) {
+              return done(null, new UserDTO(user));
+            }
           } else {
             return done(new AuthError("Unauthorized"));
           }
@@ -84,52 +80,19 @@ export class Auth {
     );
   }
 
-  /**
-   * BasicStrategy & ClientPasswordStrategy
-   *
-   * These strategies are used to authenticate registered OAuth clients.  They are
-   * employed to protect the `token` endpoint, which consumers use to obtain
-   * access tokens.  The OAuth 2.0 specification suggests that clients use the
-   * HTTP Basic scheme to authenticate.  Use of the client password strategy
-   * allows clients to send the same credentials in the request body (as opposed
-   * to the `Authorization` header).  While this approach is not recommended by
-   * the specification, in practice it is quite common.
-   */
-  static useBasicStrategy() {
-    passport.use(
-      new BasicStrategy(function(clientId, clientSecret, done) {
-        Client.findOne({
-          where: { clientId: clientId }
-        })
-          .then(function(client: any) {
-            if (!client) return done(null, false);
-            if (!bcrypt.compareSync(clientSecret, client.clientSecret)) return done(null, false);
-            return done(null, client);
-          })
-          .catch(function(error) {
-            return done(error);
-          });
-      })
-    );
-
-    passport.use(
-      new ClientPasswordStrategy(function(clientId, clientSecret, done) {
-        Client.findOne({
-          where: { clientId: clientId }
-        })
-          .then(function(client: any) {
-            if (!client) return done(null, false);
-            if (!bcrypt.compareSync(clientSecret, client.clientSecret)) return done(null, false);
-            return done(null, client);
-          })
-          .catch(function(error) {
-            return done(error);
-          });
-      })
-    );
-  }
-
   public static getBearerMiddleware() {
     return passport.authenticate("bearer", { session: false, failWithError: true });
+  }
+
+  public static authenticate = (callback: any) =>
+    passport.authenticate("local", { session: false, failWithError: true }, callback);
+
+  public static async createToken(data: object) {
+    try {
+      const jwt = await sign({ ...data }, process.env.JWT_SECRET || "", { expiresIn: process.env.JWT_EXP });
+      return jwt;
+    } catch (err) {
+      return false;
+    }
   }
 }
