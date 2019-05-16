@@ -12,4 +12,12 @@ export class Utils {
     const salt = bcrypt.genSaltSync(10);
     return bcrypt.hashSync(password, salt);
   }
+
+  public static async comparePassword(pass1: string | undefined, pass2: string | undefined): Promise<boolean> {
+    if (pass1 && pass2) {
+      return bcrypt.compare(pass1, pass2);
+    } else {
+      return false;
+    }
+  }
 }
