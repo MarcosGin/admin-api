@@ -1,4 +1,4 @@
-import { BelongsTo, Column, DataType, ForeignKey, Table } from "sequelize-typescript";
+import { BelongsTo, Column, DataType, ForeignKey, Table, AllowNull } from "sequelize-typescript";
 import { BaseModel } from "./BaseModel";
 import { User } from "./User";
 
@@ -10,10 +10,8 @@ export class AccessToken extends BaseModel<AccessToken> {
   @BelongsTo(() => User)
   user: User;
 
+  @AllowNull(false)
   @ForeignKey(() => User)
   @Column(DataType.UUID)
   userId: string;
-
-  @Column
-  clientId: string;
 }

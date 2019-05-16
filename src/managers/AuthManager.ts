@@ -20,6 +20,12 @@ export class AuthManager {
     }
   }
 
+  public async login(user: User, token: string): Promise<any> {
+    const create = new AccessToken({ token, userId: user.id });
+
+    return create.save();
+  }
+
   public async logout(user: User): Promise<any> {
     const accessToken = await AccessToken.findOne({ where: { userId: user.id } });
     if (accessToken) {
