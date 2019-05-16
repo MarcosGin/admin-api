@@ -1,15 +1,10 @@
 import { Sequelize } from "sequelize-typescript";
 
 import { AccessToken } from "./entities/AccessToken";
-import { AuthorizationCode } from "./entities/AuthorizationCode";
-import { Client } from "./entities/Client";
 import { User } from "./entities/User";
 
 export { AccessToken } from "./entities/AccessToken";
-export { AuthorizationCode } from "./entities/AuthorizationCode";
-export { Client } from "./entities/Client";
 export { User } from "./entities/User";
-
 export { UserDTO } from "./dtos/UserDTO";
 
 export class Models {
@@ -26,6 +21,6 @@ export class Models {
 
   // Todo: get by directory path
   private getModels() {
-    return [AccessToken, AuthorizationCode, Client, User];
+    return [AccessToken, User];
   }
 }
