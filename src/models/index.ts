@@ -1,16 +1,7 @@
 import { Sequelize } from "sequelize-typescript";
+import { AccessToken, User, Product, Category, Brand } from "./entities";
 
-import { AccessToken } from "./entities/AccessToken";
-import { User } from "./entities/User";
-import { Product } from "./entities/Product";
-import { Category } from "./entities/Category";
-import { Brand } from "./entities/Brand";
-
-export { AccessToken } from "./entities/AccessToken";
-export { User } from "./entities/User";
-export { Product } from "./entities/Product";
-export { Category } from "./entities/Category";
-export { Brand } from "./entities/Brand";
+export { AccessToken, User, Product, Category, Brand } from "./entities";
 export { UserDTO } from "./dtos/UserDTO";
 
 export class Models {
