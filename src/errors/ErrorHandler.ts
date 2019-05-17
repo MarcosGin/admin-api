@@ -18,5 +18,5 @@ export function errorHandler(err, req, res, next) {
     return res.status(400).json(new ValidationError(err.message));
   }
 
-  return res.status(500).json({ error: "Internal Servererror" });
+  return res.status(500).json({ error: "Internal Server Error" });
 }
