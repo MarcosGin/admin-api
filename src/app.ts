@@ -2,6 +2,7 @@ import * as express from "express";
 import * as morgan from "morgan";
 import * as config from "./config/config";
 import * as bodyParser from "body-parser";
+import * as cors from "cors";
 import * as passport from "passport";
 import * as http from "http";
 
@@ -38,6 +39,7 @@ export class App {
     this.app.set("port", process.env.PORT || 3000);
     this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(bodyParser.json());
+    this.app.use(cors());
     this.app.use(
       morgan("dev", {
         skip: (req, res) => {
