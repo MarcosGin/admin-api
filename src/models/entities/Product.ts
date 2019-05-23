@@ -30,24 +30,24 @@ export class Product extends BaseModel<Product> {
 
   @AllowNull(false)
   @ForeignKey(() => User)
-  @Column(DataType.UUID)
-  userId: string;
+  @Column
+  userId: number;
 
   @BelongsTo(() => Category)
   category: Category;
 
   @AllowNull(false)
   @ForeignKey(() => Category)
-  @Column(DataType.UUID)
-  categoryId: string;
+  @Column
+  categoryId: number;
 
   @BelongsTo(() => Brand)
   brand: Brand;
 
   @AllowNull(false)
   @ForeignKey(() => Brand)
-  @Column(DataType.UUID)
-  brandId: string;
+  @Column
+  brandId: number;
 
-  galleryId: string;
+  galleryId: number;
 }

@@ -13,6 +13,6 @@ export class Category extends BaseModel<Category> {
 
   @AllowNull(false)
   @ForeignKey(() => User)
-  @Column(DataType.UUID)
-  userId: string;
+  @Column
+  userId: number;
 }

@@ -12,6 +12,6 @@ export class AccessToken extends BaseModel<AccessToken> {
 
   @AllowNull(false)
   @ForeignKey(() => User)
-  @Column(DataType.UUID)
-  userId: string;
+  @Column
+  userId: number;
 }
