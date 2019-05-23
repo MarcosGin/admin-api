@@ -2,8 +2,8 @@ import { Request, Response, NextFunction as Next } from "express";
 import { BaseRouter } from "./BaseRouter";
 import { Auth } from "../auth/auth";
 import { AuthManager } from "../managers/AuthManager";
-import { UserDTO } from "../models";
 import { AuthError } from "../errors/AuthError";
+import { LoginError } from "../errors/LoginError";
 
 export class AuthRouter extends BaseRouter {
   private authManager: any;
@@ -20,7 +20,7 @@ export class AuthRouter extends BaseRouter {
         if (err) return next(err);
         if (!user && info.message) return next(new AuthError(info.message));
 
-        const jwt = await Auth.createToken(new UserDTO(user));
+        const jwt = await Auth.createToken(user);
 
         if (jwt) {
           try {
@@ -30,10 +30,9 @@ export class AuthRouter extends BaseRouter {
             return next(err);
           }
         } else {
-          return res.status(400).json({
-            status: false,
-            message: "There was an error when trying to start your session, try again in a few minutes."
-          });
+          return next(
+            new LoginError("There was an error when trying to start your session, try again in a few minutes")
+          );
         }
       })(req, res, next);
     } catch (error) {
