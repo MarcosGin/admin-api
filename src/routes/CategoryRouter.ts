@@ -15,7 +15,7 @@ export class CategoryRouter extends BaseRouter {
   public get = async (req: Request, res: Response, next: Next) => {
     try {
       const categories = await this.categoryManager.getAll();
-      res.json({ categories });
+      res.json({ response: categories });
     } catch (err) {
       next(err);
     }

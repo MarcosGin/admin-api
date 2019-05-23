@@ -15,7 +15,7 @@ export class BrandRouter extends BaseRouter {
   public get = async (req: Request, res: Response, next: Next) => {
     try {
       const brands = await this.brandManager.getAll();
-      res.json({ brands });
+      res.json({ response: brands });
     } catch (err) {
       next(err);
     }
