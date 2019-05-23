@@ -15,7 +15,7 @@ export class ProductRouter extends BaseRouter {
 
   public get = async (req: Request, res: Response, next: Next) => {
     try {
-      const { page = 1, limit = 10, title } = req.query;
+      const { page = 1, limit = 10, title, sorter } = req.query;
 
       let { brand: brands, category: categories } = req.query;
 
@@ -25,7 +25,7 @@ export class ProductRouter extends BaseRouter {
       brands = _.isArray(brands) ? _.uniq(brands) : brands;
       categories = _.isArray(categories) ? _.uniq(categories) : categories;
 
-      const products = await this.productManager.getAll({ offset, limit: pageSize }, title, brands, categories);
+      const products = await this.productManager.getAll({ offset, limit: pageSize }, sorter, title, brands, categories);
 
       const countProduct = await this.productManager.count(title, brands, categories);
 
