@@ -49,5 +49,5 @@ export class Product extends BaseModel<Product> {
   @Column
   brandId: number;
 
-  galleryId: number;
+  galleryId: number | null;
 }
