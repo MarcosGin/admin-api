@@ -31,7 +31,7 @@ export class User extends BaseModel<User> {
   accessToken: AccessToken;
 
   @Column
-  pictureUrl: string;
+  avatar: string;
 
   @BeforeSave
   static encryptPassword(instance: User) {

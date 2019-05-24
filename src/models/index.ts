@@ -1,10 +1,7 @@
 import { Sequelize } from "sequelize-typescript";
+import { AccessToken, User, Product, Category, Brand } from "./entities";
 
-import { AccessToken } from "./entities/AccessToken";
-import { User } from "./entities/User";
-
-export { AccessToken } from "./entities/AccessToken";
-export { User } from "./entities/User";
+export { AccessToken, User, Product, Category, Brand } from "./entities";
 export { UserDTO } from "./dtos/UserDTO";
 
 export class Models {
@@ -21,6 +18,6 @@ export class Models {
 
   // Todo: get by directory path
   private getModels() {
-    return [AccessToken, User];
+    return [User, AccessToken, Product, Category, Brand];
   }
 }

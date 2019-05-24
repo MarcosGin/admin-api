@@ -13,12 +13,6 @@ import {
 
 @Table
 export class BaseModel<T> extends Model<T> {
-  @IsUUID(4)
-  @PrimaryKey
-  @Default(DataType.UUIDV4)
-  @Column(DataType.UUID)
-  id: string;
-
   @CreatedAt
   createdAt: Date;
 

@@ -6,6 +6,7 @@ import { sign, verify } from "jsonwebtoken";
 import { User, AccessToken, UserDTO } from "../models";
 import { AuthError } from "../errors/AuthError";
 import { Utils } from "../utils";
+import { LoginError } from "../errors/LoginError";
 
 const LocalStrategy = passportLocal.Strategy;
 const BearerStrategy = passportBearer.Strategy;
@@ -40,10 +41,10 @@ export class Auth {
           if (authorized) {
             return done(null, new UserDTO(user));
           } else {
-            return done(null, false, { message: "The password is incorrect" });
+            return done(new LoginError("The password is incorrect"));
           }
         } else {
-          return done(new AuthError("The e-mail not exist."));
+          return done(new LoginError("The e-mail not exist."));
         }
       })
     );
